@@ -69,7 +69,7 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
   end
 
   def add_failures
-    unless @failures.examples.size.zero?
+    unless @failures.failure_notifications.size.zero?
       output.write <<~MD
 
         
@@ -96,17 +96,19 @@ MD
   end
 
   def add_pending
-    output.write <<~MD
-      ## Pending
-
-      Failures listed here are expected and do not affect your suite's status.
-
-    MD
-
-    @pending.pending_notifications.each do |notification|
+    unless @pending.pending_notifications.size.zero?
       output.write <<~MD
-        1. #{notification.example.full_description}: #{linkify_file_in_md(notification.example.location)}
+        ## Pending
+  
+        Failures listed here are expected and do not affect your suite's status.
+
       MD
+
+      @pending.pending_notifications.each do |notification|
+        output.write <<~MD
+          1. #{notification.example.full_description}: #{linkify_file_in_md(notification.example.location)}
+        MD
+      end
     end
   end
 
