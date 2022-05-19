@@ -1,6 +1,6 @@
 # RSpec GitHub Flavored Markdown Formatter
 
-RSpec GitHub Flavored Markdown Formatter is a gem specifically created for GitHub Actions Job Summaries. It produces a [GitHub Flavored Markdown](https://github.github.com/gfm/) output for your RSpec tests and outputs it whereever you desire.
+RSpec GitHub Flavored Markdown Formatter is a gem specifically created for GitHub Actions Job Summaries. It produces a [GitHub Flavored Markdown](https://github.github.com/gfm/) output for your RSpec tests and outputs it wherever you desire.
 
 Specifically useful for GitHub Action summaries.
 
