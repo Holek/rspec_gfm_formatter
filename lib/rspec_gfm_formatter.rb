@@ -161,3 +161,6 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
     ENV.fetch("GITHUB_SHA")
   end
 end
+
+# alias for convenience
+RSpecGfmFormatter = RSpecGfmFormatter
