@@ -5,7 +5,7 @@ require "rspec/core/formatters/base_text_formatter"
 require "rspec/core/formatters/helpers"
 
 class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
-  ::RSpec::Core::Formatters.register self,:start, :dump_failures, :dump_pending,
+  ::RSpec::Core::Formatters.register self, :start, :dump_failures, :dump_pending,
                                      :example_started, :message, :dump_summary, :seed, :close
 
   def initialize(output)
@@ -17,11 +17,10 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
     @current_example = example_notification
   end
 
-  def message(notification)
+  def message(_notification)
     if @current_example
-      #noop
+      # noop
     end
-    binding.pry
   end
 
   def start(start_notification)
@@ -44,7 +43,7 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
     @seed = seed_notification.seed
   end
 
-  def close(null_notification)
+  def close(_null_notification)
     output.write <<~MD
       # 🚧 Test suite results
 
@@ -72,8 +71,8 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
 
     @summary.examples.each do |example|
       unless example.skipped?
-        output.write "| #{example.full_description} | #{status(example.execution_result.status)} " +
-                       " | #{example.execution_result.run_time} |\n"
+        output.write "| #{example.full_description} | #{status(example.execution_result.status)} " \
+                     " | #{example.execution_result.run_time} |\n"
       end
     end
     output.write "\n</details>\n"
@@ -146,7 +145,7 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
   def linkify_file_in_md(example_location)
     if gh?
       filepath, line = example_location.split(":")
-      urlpath = filepath.gsub(/\A\.\//, "")
+      urlpath = filepath.gsub(%r{\A\./}, "")
       "[`#{filepath}:#{line}`](#{repo}/blob/#{sha}/#{urlpath}#L#{line})"
     else
       "`#{example_location}`"
