@@ -81,8 +81,8 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
 
   def add_failures
     unless @failures.failure_notifications.size.zero?
+      output.write "\n\n"
       output.write <<~MD
-
         ## Failed examples
 
       MD
@@ -107,8 +107,8 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
 
   def add_pending
     unless @pending.pending_notifications.size.zero?
+      output.write "\n\n"
       output.write <<~MD
-
         ## Pending
 
         <details>
