@@ -55,8 +55,6 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
     add_failures
 
     add_pending
-
-    footer
   end
 
   private
@@ -98,7 +96,7 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
           output.write <<~MD.gsub(/^/, "   ")
             ```
             #{notification.example.display_exception}
-            #{notification.example.display_exception.backtrace.join("\n")}
+            #{notification.example.display_exception.backtrace&.join("\n")}
             ```
           MD
         end
@@ -112,8 +110,9 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
       output.write <<~MD
 
         ## Pending
-  
-        Failures listed here are expected and do not affect your suite's status.
+
+        <details>
+        <summary>Failures listed here are expected and do not affect your suite's status.</summary>
 
       MD
 
@@ -122,11 +121,9 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
           1. #{notification.example.full_description}: #{linkify_file_in_md(notification.example.location)}
         MD
       end
+
+      output.write "\n</details>\n"
     end
-  end
-
-  def footer
-
   end
 
   def duration(seconds)
