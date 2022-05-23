@@ -1,8 +1,6 @@
 # RSpec GitHub Flavored Markdown Formatter
 
-RSpec GitHub Flavored Markdown Formatter is a gem specifically created for GitHub Actions Job Summaries. It produces a [GitHub Flavored Markdown](https://github.github.com/gfm/) output for your RSpec tests and outputs it wherever you desire.
-
-Specifically useful for GitHub Action summaries.
+In May 2022, GitHub [announced "Supercharging GitHub Actions with Job Summaries"](https://github.blog/2022-05-09-supercharging-github-actions-with-job-summaries/). RSpec GitHub Flavored Markdown Formatter is a gem specifically created for GitHub Actions Job Summaries. It produces a [GitHub Flavored Markdown](https://github.github.com/gfm/) output for your RSpec tests and outputs it wherever you desire.
 
 ## Installation
 
@@ -14,7 +12,15 @@ gem 'rspec_gfm_formatter', group: :test
 
 And then execute:
 
-    $ bundle install
+```shell
+$ bundle install
+```
+
+Or, alternatively:
+
+```shell
+$ bundle add rspec_gfm_formatter --group "test"
+```
 
 ## Usage
 
@@ -22,8 +28,7 @@ Add the formatter to GitHub Actions workflow file:
 
     - name: Run tests
       run: |
-        bundle exec rspec --format RspecGfmFormatter --out tmp/test_results.md
-        cat tmp/test_results.md >> $GITHUB_STEP_SUMMARY
+        bundle exec rspec --format RspecGfmFormatter >> $GITHUB_STEP_SUMMARY
 
 Obviously you can use it outside of GitHub Actions and produce Markdown files compatible with GitHub.
 
@@ -31,7 +36,7 @@ Obviously you can use it outside of GitHub Actions and produce Markdown files co
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `rspec_gfm_formatter.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
