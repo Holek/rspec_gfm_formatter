@@ -5,11 +5,23 @@ require "rspec/core/formatters/base_text_formatter"
 require "rspec/core/formatters/helpers"
 
 class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
-  ::RSpec::Core::Formatters.register self,:start, :dump_failures, :dump_pending, :dump_summary, :seed, :close
+  ::RSpec::Core::Formatters.register self,:start, :dump_failures, :dump_pending,
+                                     :example_started, :message, :dump_summary, :seed, :close
 
   def initialize(output)
     super
     @running_in_github_actions = ENV.fetch("GITHUB_ACTIONS", "false") == "true"
+  end
+
+  def example_started(example_notification)
+    @current_example = example_notification
+  end
+
+  def message(notification)
+    if @current_example
+      #noop
+    end
+    binding.pry
   end
 
   def start(start_notification)
@@ -37,8 +49,6 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
       # 🚧 Test suite results
 
       Finished in #{@summary.formatted_duration} (files took #{@summary.formatted_load_time} to load).
-
-      #{@summary.totals_line}
     MD
     create_table_from_summary
 
@@ -55,6 +65,8 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
     return unless @summary
 
     output.write <<~MD
+      <details>
+      <summary>#{@summary.totals_line}</summary>
 
       | 🧪 Example | ❔ Passed  | ⏱ Time (s) |
       | --------- | --------- | --------- |
@@ -66,13 +78,13 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
                        " | #{example.execution_result.run_time} |\n"
       end
     end
+    output.write "\n</details>\n"
   end
 
   def add_failures
     unless @failures.failure_notifications.size.zero?
       output.write <<~MD
 
-        
         ## Failed examples
 
       MD
@@ -83,12 +95,12 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
              #{linkify_file_in_md(notification.example.location)}
         MD
         if notification.example.display_exception
-          output.write <<MD
-   ```
-   #{notification.example.display_exception}
-   #{notification.example.display_exception.backtrace}
-   ```
-MD
+          output.write <<~MD.gsub(/^/, "   ")
+            ```
+            #{notification.example.display_exception}
+            #{notification.example.display_exception.backtrace.join("\n")}
+            ```
+          MD
         end
         output.write "\n"
       end
