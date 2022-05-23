@@ -110,6 +110,7 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
   def add_pending
     unless @pending.pending_notifications.size.zero?
       output.write <<~MD
+
         ## Pending
   
         Failures listed here are expected and do not affect your suite's status.
