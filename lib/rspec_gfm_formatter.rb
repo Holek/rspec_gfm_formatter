@@ -162,4 +162,4 @@ class RspecGfmFormatter < ::RSpec::Core::Formatters::BaseTextFormatter
 end
 
 # alias for convenience
-RSpecGfmFormatter = RSpecGfmFormatter
+RSpecGfmFormatter = RspecGfmFormatter
